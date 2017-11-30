@@ -1,5 +1,5 @@
 
-# todo: requestBody for all that apply, define $refs that link to nothing.
+# todo: define $refs that link to nothing.
 
 
 openapi: "3.0"
@@ -47,25 +47,25 @@ paths:
           schema:
             type: boolean
       requestBody:
-        description: Pet to add to the store
+        description: parameters for the requested service instance provision
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewPet'
+              $ref: '#/components/schemas/ServiceInstanceProvisionRequest'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceInstanceProvisioning'
+                $ref: '#/components/schemas/ServiceInstanceProvision'
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceInstanceProvisioning'
+                $ref: '#/components/schemas/ServiceInstanceProvision'
         '202':
           description: Accepted
         '400':
@@ -102,6 +102,13 @@ paths:
           description: asynchronous operations supported
           schema:
             type: boolean
+      requestBody:
+        description: parameters for the requested service instance update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceInstanceUpdateRequest'
       responses:
         '200': 
           description: OK
@@ -234,19 +241,26 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        description: parameters for the requested service binding
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceBindingRequest'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceBindingsBinding'
+                $ref: '#/components/schemas/ServiceBinding'
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceBindingsBinding'
+                $ref: '#/components/schemas/ServiceBinding'
         '400':
           description: Bad Request
         '409':
@@ -313,7 +327,7 @@ components:
     Catalog: TODO
     ServiceInstanceProvisioning: TODO
     ServiceInstanceLastOperation: TODO
-    ServiceBindingsBinding: TODO
+    ServiceBinding: TODO
     Empty: TODO
     Errors: 
       properties:
