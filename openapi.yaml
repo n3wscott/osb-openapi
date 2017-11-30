@@ -5,7 +5,9 @@ info:
 paths:
   v2/catalog:
     get:
-      description: get the service catalog
+      summary: get the service catalog
+      tags:
+        - Catalog
       operationId: catalog.get
       responses:
         '200':
@@ -18,77 +20,83 @@ paths:
 
   /v2/service_instances/{instance_id}:
     put:
-      description: provision a service instance
+      summary: provision a service instance
+      tags:
+        - ServiceInstances
       operationId: serviceInstance.provision
       responses:
         '200':
-          description: OK
+          summary: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceInstanceProvisioning'
         '201':
-          description: Created
+          summary: Created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceInstanceProvisioning'
         '202':
-          description: Accepted
+          summary: Accepted
         '400':
-          description: Bad Request
+          summary: Bad Request
         '409':
-          description: Conflict
+          summary: Conflict
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Empty'
         '422':
-          description: Unprocessable Entity
+          summary: Unprocessable Entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
 
     patch:
-      description: update a service instance
+      summary: update a service instance
+      tags:
+        - ServiceInstances
       operationId: serviceInstance.update
       responses:
         '200': 
-          description: OK
+          summary: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Empty'
         '202': 
-          description: Accepted
+          summary: Accepted
         '400': 
-          description: Bad Request
+          summary: Bad Request
         '422': 
-          description: Unprocessable entity
+          summary: Unprocessable entity
 
     delete:
-      description: deprovision a service instance
+      summary: deprovision a service instance
+      tags:
+        - ServiceInstances
       operationId: serviceInstance.deprovision
       responses:
         '200'
-          description: OK
+          summary: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Empty'
         '202'
-          description: Accepted
+          summary: Accepted
         '400'
-          description: Bad Request
+          summary: Bad Request
         '410'
-          description: Gone
+          summary: Gone
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Empty'
         '422'
-          description: Unprocessable Entity
+          summary: Unprocessable Entity
           content:
             application/json:
               schema:
@@ -97,64 +105,73 @@ paths:
 
   v2/service_instances/{instance_id}/last_operation:
     get:
-      description: TODO
+      summary: TODO
+      tags:
+        - ServiceInstances
+        - Async
       operationId: serviceInstance.lastOperation.get
       responses:
         '200':
-          description: OK
+          summary: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceInstanceLastOperation'
         '400':
-          description: Bad Request
+          summary: Bad Request
         '410':
-          description: Gone
+          summary: Gone
 
 
   /v2/service_instances/{instance_id}/service_bindings/{binding_id}:
     put:
-      description: binding
+      summary: binding
+      tags:
+        - Bindings
+      operationId: serviceBinding.binding
       responses:
         '200':
-          description: OK
+          summary: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceBindingsBinding'
         '201':
-          description: Created
+          summary: Created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceBindingsBinding'
         '400':
-          description: Bad Request
+          summary: Bad Request
         '409':
-          description: Conflict
+          summary: Conflict
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
         '422':
-          description: Unprocessable Entity
+          summary: Unprocessable Entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
     delete:
-      description: unbinding
+      summary: unbinding
+      tags:
+        - Bindings
+      operationId: serviceBinding.unbinding
       responses:
         '200':
-          description: OK
+          summary: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Empty'
         '400':
-          description: Bad Request
+          summary: Bad Request
         '410':
-          description: Gone
+          summary: Gone
           content:
             application/json:
               schema:
