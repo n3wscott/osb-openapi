@@ -9,13 +9,17 @@ paths:
       tags:
         - Catalog
       operationId: catalog.get
+      parameters:
+        - $ref: '#/components/headers/X-Broker-API-Version'
       responses:
         '200':
           description: catalog response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Catalog'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
 
 
   /v2/service_instances/{instance_id}:
@@ -24,6 +28,20 @@ paths:
       tags:
         - ServiceInstances
       operationId: serviceInstance.provision
+      parameters:
+        - $ref: '#/components/headers/X-Broker-API-Version'
+        - $ref: '#/components/headers/X-Broker-API-Originating-Identity'
+        - name: instance_id
+          in: path
+          description: instance id of instance to provision
+          required: true
+          schema:
+            type: string
+        - name: accepts_incomplete
+          in: query
+          description: asynchronous operations supported
+          schema:
+            type: boolean
       responses:
         '200':
           summary: OK
@@ -59,6 +77,20 @@ paths:
       tags:
         - ServiceInstances
       operationId: serviceInstance.update
+      parameters:
+        - $ref: '#/components/headers/X-Broker-API-Version'
+        - $ref: '#/components/headers/X-Broker-API-Originating-Identity'
+        - name: instance_id
+          in: path
+          description: instance id of instance to update
+          required: true
+          schema:
+            type: string
+        - name: accepts_incomplete
+          in: query
+          description: asynchronous operations supported
+          schema:
+            type: boolean
       responses:
         '200': 
           summary: OK
@@ -78,6 +110,30 @@ paths:
       tags:
         - ServiceInstances
       operationId: serviceInstance.deprovision
+      parameters:
+        - $ref: '#/components/headers/X-Broker-API-Version'
+        - $ref: '#/components/headers/X-Broker-API-Originating-Identity'
+        - name: instance_id
+          in: path
+          description: id of instance being deleted
+          required: true
+          schema:
+            type: string
+        - name: service_id
+          in: query
+          description: id of the service associated with the instance being deleted
+          schema:
+            type: string
+        - name: plan_id
+          in: query
+          description: id of the plan associated with the instance being deleted
+          schema:
+            type: string
+        - name: accepts_incomplete
+          in: query
+          description: asynchronous deprovision supported
+          schema:
+            type: boolean
       responses:
         '200'
           summary: OK
@@ -110,6 +166,29 @@ paths:
         - ServiceInstances
         - Async
       operationId: serviceInstance.lastOperation.get
+      parameters:
+        - $ref: '#/components/headers/X-Broker-API-Version'
+        - name: instance_id
+          in: path
+          description: instance id of instance to find last operation applied to it
+          required: true
+          schema:
+            type: string
+        - name: service_id
+          in: query
+          description: id of the service being used
+          schema:
+            type: string
+        - name: plan_id
+          in: query
+          description: id of the plan being used
+          schema:
+            type: string
+        - name: operation
+          in: query
+          description: a provided identifier for the operation
+          schema:
+            type: string
       responses:
         '200':
           summary: OK
@@ -129,6 +208,21 @@ paths:
       tags:
         - Bindings
       operationId: serviceBinding.binding
+      parameters:
+        - $ref: '#/components/headers/X-Broker-API-Version'
+        - $ref: '#/components/headers/X-Broker-API-Originating-Identity'
+        - name: instance_id
+          in: path
+          description: instance id being bound
+          required: true
+          schema:
+            type: string
+        - name: binding_id
+          in: path
+          description: binding id being bound
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           summary: OK
@@ -161,6 +255,31 @@ paths:
       tags:
         - Bindings
       operationId: serviceBinding.unbinding
+      parameters:
+        - $ref: '#/components/headers/X-Broker-API-Version'
+        - $ref: '#/components/headers/X-Broker-API-Originating-Identity'
+        - name: instance_id
+          in: path
+          description: id of the instance associated with the binding being deleted
+          required: true
+          schema:
+            type: string
+        - name: binding_id
+          in: path
+          description: id of the binding being deleted
+          required: true
+          schema:
+            type: string
+        - name: service_id
+          in: query
+          description: id of the service associated with the binding being deleted
+          schema:
+            type: string
+        - name: plan_id
+          in: query
+          description: id of the plan associated with the binding being deleted
+          schema:
+            type: string
       responses:
         '200':
           summary: OK
@@ -177,6 +296,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Empty'
 
+
 components:
   schemas:
     Catalog: TODO
@@ -190,6 +310,17 @@ components:
           type: string
         description:
           type: string
+  headers:
+    X-Broker-API-Version:
+      description: version number of the Service Broker API that the Platform will use
+      required: true
+      schema:
+        type: string
+    X-Broker-API-Originating-Identity:
+      description: identity of the user that initiated the request from the Platform
+      schema:
+        type: string
+
 security:
   todo
 tags:
