@@ -1,3 +1,7 @@
+
+# todo: requestBody for all that apply, define $refs that link to nothing.
+
+
 openapi: "3.0"
 info:
   title: Open Service Broker API
@@ -42,31 +46,38 @@ paths:
           description: asynchronous operations supported
           schema:
             type: boolean
+      requestBody:
+        description: Pet to add to the store
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPet'
       responses:
         '200':
-          summary: OK
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceInstanceProvisioning'
         '201':
-          summary: Created
+          description: Created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceInstanceProvisioning'
         '202':
-          summary: Accepted
+          description: Accepted
         '400':
-          summary: Bad Request
+          description: Bad Request
         '409':
-          summary: Conflict
+          description: Conflict
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Empty'
         '422':
-          summary: Unprocessable Entity
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
@@ -93,17 +104,17 @@ paths:
             type: boolean
       responses:
         '200': 
-          summary: OK
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Empty'
         '202': 
-          summary: Accepted
+          description: Accepted
         '400': 
-          summary: Bad Request
+          description: Bad Request
         '422': 
-          summary: Unprocessable entity
+          description: Unprocessable entity
 
     delete:
       summary: deprovision a service instance
@@ -136,23 +147,23 @@ paths:
             type: boolean
       responses:
         '200'
-          summary: OK
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Empty'
         '202'
-          summary: Accepted
+          description: Accepted
         '400'
-          summary: Bad Request
+          description: Bad Request
         '410'
-          summary: Gone
+          description: Gone
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Empty'
         '422'
-          summary: Unprocessable Entity
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
@@ -191,15 +202,15 @@ paths:
             type: string
       responses:
         '200':
-          summary: OK
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceInstanceLastOperation'
         '400':
-          summary: Bad Request
+          description: Bad Request
         '410':
-          summary: Gone
+          description: Gone
 
 
   /v2/service_instances/{instance_id}/service_bindings/{binding_id}:
@@ -225,27 +236,27 @@ paths:
             type: string
       responses:
         '200':
-          summary: OK
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceBindingsBinding'
         '201':
-          summary: Created
+          description: Created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceBindingsBinding'
         '400':
-          summary: Bad Request
+          description: Bad Request
         '409':
-          summary: Conflict
+          description: Conflict
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
         '422':
-          summary: Unprocessable Entity
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
@@ -282,15 +293,15 @@ paths:
             type: string
       responses:
         '200':
-          summary: OK
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Empty'
         '400':
-          summary: Bad Request
+          description: Bad Request
         '410':
-          summary: Gone
+          description: Gone
           content:
             application/json:
               schema:
