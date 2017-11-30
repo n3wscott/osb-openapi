@@ -1,0 +1,182 @@
+openapi: "3.0"
+info:
+  title: Open Service Broker API
+  version: v2.13
+paths:
+  v2/catalog:
+    get:
+      description: get the service catalog
+      operationId: catalog.get
+      responses:
+        '200':
+          description: catalog response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Catalog'
+
+
+  /v2/service_instances/{instance_id}:
+    put:
+      description: provision a service instance
+      operationId: serviceInstance.provision
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceInstanceProvisioning'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceInstanceProvisioning'
+        '202':
+          description: Accepted
+        '400':
+          description: Bad Request
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+
+    patch:
+      description: update a service instance
+      operationId: serviceInstance.update
+      responses:
+        '200': 
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '202': 
+          description: Accepted
+        '400': 
+          description: Bad Request
+        '422': 
+          description: Unprocessable entity
+
+    delete:
+      description: deprovision a service instance
+      operationId: serviceInstance.deprovision
+      responses:
+        '200'
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '202'
+          description: Accepted
+        '400'
+          description: Bad Request
+        '410'
+          description: Gone
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '422'
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+
+
+  v2/service_instances/{instance_id}/last_operation:
+    get:
+      description: TODO
+      operationId: serviceInstance.lastOperation.get
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceInstanceLastOperation'
+        '400':
+          description: Bad Request
+        '410':
+          description: Gone
+
+
+  /v2/service_instances/{instance_id}/service_bindings/{binding_id}:
+    put:
+      description: binding
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceBindingsBinding'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceBindingsBinding'
+        '400':
+          description: Bad Request
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+    delete:
+      description: unbinding
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '400':
+          description: Bad Request
+        '410':
+          description: Gone
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+
+components:
+  schemas:
+    Catalog: TODO
+    ServiceInstanceProvisioning: TODO
+    ServiceInstanceLastOperation: TODO
+    ServiceBindingsBinding: TODO
+    Empty: TODO
+    Errors: 
+      properties:
+        error:
+          type: string
+        description:
+          type: string
+security:
+  todo
+tags:
+  todo
+externalDocs:
+  description: The offical OSB specification
+  url: https://github.com/openservicebrokerapi/servicebroker/
