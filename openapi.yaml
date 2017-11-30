@@ -324,17 +324,41 @@ paths:
 
 components:
   schemas:
-    Catalog: TODO
-    ServiceInstanceProvisioning: TODO
-    ServiceInstanceLastOperation: TODO
-    ServiceBinding: TODO
-    Empty: TODO
+    Service:
+      properties:
+        todo:
+          type: boolean
+    ServiceInstanceProvisionRequest:
+      properties:
+        todo:
+          type: boolean
+    ServiceInstanceProvision:
+      properties:
+        todo:
+          type: boolean
+    ServiceInstanceLastOperation:
+      properties:
+        todo:
+          type: boolean
+    ServiceBindingRequest:
+      properties:
+        todo:
+          type: boolean
+    ServiceBinding:
+      properties:
+        todo:
+          type: boolean
+    Empty:
+      properties:
+        todo:
+          type:boolean
     Errors: 
       properties:
         error:
           type: string
         description:
           type: string
+          
   headers:
     X-Broker-API-Version:
       description: version number of the Service Broker API that the Platform will use
@@ -346,10 +370,10 @@ components:
       schema:
         type: string
 
-security:
-  todo
-tags:
-  todo
+#security:
+#  todo
+#tags:
+#  todo
 externalDocs:
   description: The offical OSB specification
   url: https://github.com/openservicebrokerapi/servicebroker/
