@@ -1,11 +1,20 @@
-#
-# todo: define $refs that link to nothing.
-#
+# This is the Open API interface for Open Service Broker API. Every attempt will
+# be made to make the Open API version of OSB API accurately represent the
+# written specification. If the spec and this document conflict, the spec is
+# the authroity.
 
 openapi: "3.0.0"
+
 info:
   title: Open Service Broker API
+  description: The Service Broker API defines an HTTP(S) interface between Platforms and Service Brokers.
+  license: https://github.com/openservicebrokerapi/servicebroker/blob/master/LICENSE
+  contact: 
+    name: Open Service Broker API
+    url: https://www.openservicebrokerapi.org/
+    email: open-service-broker-api@googlegroups.com
   version: v2.13
+
 paths:
   /v2/catalog:
     get:
@@ -22,8 +31,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Catalog'
-#
-#
+
   /v2/service_instances/{instance_id}:
     put:
       summary: provision a service instance
@@ -80,7 +88,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
-
     patch:
       summary: update a service instance
       tags:
@@ -120,7 +127,6 @@ paths:
           description: Bad Request
         '422': 
           description: Unprocessable entity
-
     delete:
       summary: deprovision a service instance
       tags:
@@ -174,7 +180,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Errors'
 
-
   /v2/service_instances/{instance_id}/last_operation:
     get:
       summary: last requested operation state
@@ -215,7 +220,6 @@ paths:
           description: Bad Request
         '410':
           description: Gone
-
 
   /v2/service_instances/{instance_id}/service_bindings/{binding_id}:
     put:
@@ -318,8 +322,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/Object'
 
-
 components:
+  headers:
+    X-Broker-API-Version:
+      description: version number of the Service Broker API that the Platform will use
+      required: true
+      schema:
+        type: string
+      default: '2.13'
+    X-Broker-API-Originating-Identity:
+      description: identity of the user that initiated the request from the Platform
+      schema:
+        type: string
+
   schemas:
     Catalog:
       type: object
@@ -447,9 +462,33 @@ components:
           type: string # could be a link object to last operation
 
     ServiceInstanceUpdateRequest:
+      required:
+        - service_id
       properties:
-        todo:
-          type: boolean
+        context:
+          $ref: '#/components/schemas/Object'
+        service_id:
+          type: string
+        plan_id:
+          type: string
+        parameters:
+          $ref: '#/components/schemas/Object'
+        previous_values:
+          $ref: '#/components/schemas/ServiceInstancePreviousValues'
+
+    ServiceInstancePreviousValues:
+      properties:
+        service_id:
+          type: string
+          deprecated: true
+        plan_id:
+          type: string
+        organization_id:
+          type: string
+          deprecated: true
+        space_id:
+          type: string
+          deprecated: true
 
     ServiceInstanceLastOperation:
       required:
@@ -465,14 +504,76 @@ components:
           type: string
 
     ServiceBindingRequest:
+      required:
+        - service_id
+        - plan_id
       properties:
-        todo:
-          type: boolean
+        context:
+          $ref: '#/components/schemas/Object'
+        service_id:
+          type: string
+        plan_id:
+          type: string
+        app_guid:
+          type: string
+          deprecated: true
+        bind_resource:
+          $ref: '#/components/schemas/ServiceBindingResouceObject'
+        parameters:
+          $ref: '#/components/schemas/Object'
+
+    ServiceBindingResouceObject:
+      properties:
+        app_guid:
+          type: string
+        route:
+          type: string
 
     ServiceBinding:
       properties:
-        todo:
-          type: boolean
+        credentials:
+          $ref: '#/components/schemas/Object'
+        syslog_drain_url:
+          type: string
+        route_service_url:
+          type: string
+        volume_mounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceBindingVolumeMount'
+
+    ServiceBindingVolumeMount:
+      required:
+        - driver
+        - container_dir
+        - mode
+        - device_type
+        - device
+      properties:
+        driver:
+          type: string
+        container_dir:
+          type: string
+        mode:
+          type: string
+          enum:
+            - r
+            - rw
+        device_type:
+          type: string
+          enum:
+            - shared
+        device:
+          $ref: '#/components/schemas/ServiceBindingVolumeMountDevice'
+
+    ServiceBindingVolumeMountDevice:
+      required:
+        - volume_id
+      properties:
+        volume_id:
+          type: string
+        mount_config:
+          $ref: '#/components/schemas/Object'
 
     Object:
       type: object
@@ -483,23 +584,15 @@ components:
           type: string
         description:
           type: string
-          
-  headers:
-    X-Broker-API-Version:
-      description: version number of the Service Broker API that the Platform will use
-      required: true
-      schema:
-        type: string
-      default: '2.13'
-    X-Broker-API-Originating-Identity:
-      description: identity of the user that initiated the request from the Platform
-      schema:
-        type: string
 
-#security:
-#  todo
-#tags:
-#  todo
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+
+security:
+  - basicAuth: []
+
 externalDocs:
-  description: The offical OSB specification
+  description: The offical Open Service Broker API specification
   url: https://github.com/openservicebrokerapi/servicebroker/
