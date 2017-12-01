@@ -8,7 +8,9 @@ openapi: "3.0.0"
 info:
   title: Open Service Broker API
   description: The Service Broker API defines an HTTP(S) interface between Platforms and Service Brokers.
-  license: https://github.com/openservicebrokerapi/servicebroker/blob/master/LICENSE
+  license: 
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
   contact: 
     name: Open Service Broker API
     url: https://www.openservicebrokerapi.org/
