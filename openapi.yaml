@@ -418,14 +418,33 @@ components:
       type: object
 
     ServiceInstanceProvisionRequest:
+      required:
+        - service_id
+        - plan_id
+        - organization_guid
+        - space_guid
       properties:
-        todo:
-          type: boolean
+        service_id:
+          type: string
+        plan_id:
+          type: string
+        context:
+          $ref: '#/components/schemas/Object'
+        organization_guid:
+          type: string
+          deprecated: true
+        space_guid:
+          type: string
+          deprecated: true
+        parameters:
+          $ref: '#/components/schemas/Object'
 
     ServiceInstanceProvision:
       properties:
-        todo:
-          type: boolean
+        dashboard_url:
+          type: string
+        operation:
+          type: string # could be a link object to last operation
 
     ServiceInstanceUpdateRequest:
       properties:
@@ -433,9 +452,17 @@ components:
           type: boolean
 
     ServiceInstanceLastOperation:
+      required:
+        - state
       properties:
-        todo:
-          type: boolean
+        state:
+          type: string
+          enum:
+            - in progress
+            - succeeded
+            - failed
+        description:
+          type: string
 
     ServiceBindingRequest:
       properties:
