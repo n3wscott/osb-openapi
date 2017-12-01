@@ -397,36 +397,59 @@ components:
 
     SchemasObject:
       properties:
-        todo:
-          type: boolean
+        service_instance:
+          $ref: '#/components/schemas/ServiceInstanceSchemaObject'
+        service_binding:
+          $ref: '#/components/schemas/ServiceBindingSchemaObject'
+
+    ServiceInstanceSchemaObject:
+      properties:
+        create:
+          $ref: '#/components/schemas/JSONSchemaObject'
+        update:
+          $ref: '#/components/schemas/JSONSchemaObject'
+
+    ServiceBindingSchemaObject:
+      properties:
+        create:
+          $ref: '#/components/schemas/JSONSchemaObject'
+
+    JSONSchemaObject:
+      type: object
 
     ServiceInstanceProvisionRequest:
       properties:
         todo:
           type: boolean
+
     ServiceInstanceProvision:
       properties:
         todo:
           type: boolean
+
     ServiceInstanceUpdateRequest:
       properties:
         todo:
           type: boolean
+
     ServiceInstanceLastOperation:
       properties:
         todo:
           type: boolean
+
     ServiceBindingRequest:
       properties:
         todo:
           type: boolean
+
     ServiceBinding:
       properties:
         todo:
           type: boolean
+
     Object:
       type: object
-      properties:
+
     Errors: 
       properties:
         error:
